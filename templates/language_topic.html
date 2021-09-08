@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block css %}    
+<link rel="stylesheet" type="text/css" href="{{url_for('.static', filename='css/language-styles.css')}}">
+{% endblock %}
+
+{% block title %}
+    Mi diccionario personal - {{language.language }}
+{% endblock %}
+
+    {% block header %}<a href="{{ url_for('get_list', language=language.language, lang_id=language.id) }}">{{ language.language }}</a><a class="add_topics" href="{{ url_for('add_topic', lang_id=language.id) }}"><i class="fas fa-plus-circle"></i></a>{% endblock %}
+
+
+{% block content %}
+<div class="col-lg-2 col-md-2 ">
+</div>
+
+<div class="col-lg-10 contenido">
+    <h4 class="title">{{ language.language  }}</h4>
+    <img class="rounded mx-auto d-block img-thumbnail" src="{{ language.img_url }}" alt="logo">
+    <p>
+        {{ language.description|safe }}
+    </p>
+</div>
+{% endblock %}

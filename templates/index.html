@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block css %}    
+<link rel="stylesheet" type="text/css" href="{{url_for('.static', filename='css/index-styles.css')}}">
+{% endblock %}
+
+{% block title %}
+    Mi diccionario personal
+{% endblock %}
+
+{% block content %}
+<div class="col-lg-2 col-md-2 ">
+</div>
+
+<div class="col-lg-10 contenido index-text">
+    <h4>Diccionario Personal</h4>
+    <p>
+        Pagina desarrollada con la finalidad de ir registando los distintos tips y conceptos que me voy encontrando durante mi proceso
+        de aprendizaje. Y asi tener una manera mas rapida de acceder a ellos.
+    </p>
+</div>
+{% endblock %}

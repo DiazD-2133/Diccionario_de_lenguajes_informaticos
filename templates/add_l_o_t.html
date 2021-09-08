@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block css %}    
+<link rel="stylesheet" type="text/css" href="{{url_for('.static', filename='css/adding-content-styles.css')}}">
+{% endblock %}
+
+{% block title %}
+    Mi diccionario personal
+{% endblock %}
+
+{% block model_list_table %}
+
+{% if topics %}
+    <ul class="items">
+        <h4 class="language-selected">
+
+            {% if language.language %}
+              <a href="{{ url_for('get_list', language=language.language, lang_id=language.id) }}">{{ language.language }}</a><a class="add_topics" href="{{ url_for('add_topic', lang_id=language.id) }}"><i class="fas fa-plus-circle"></i></a>
+            {% else %}
+              Lenguajes<a class="add_topics" href="{{ url_for('add_lang') }}"><i class="fas fa-plus-circle"></i></a>
+            
+            {% endif %}
+        </h4>
+        {% for topic in topics %}
+            <li class="item">
+                <a href="{{ url_for('get_topic', language=language.language, topic=topic.item_name, lang_id=language.id, topic_id=topic.id) }}">{{ topic.item_name }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <ul class="lang_items">
+        <h4 class="language-selected">
+
+            {% if language.language %}
+              <a href="{{ url_for('get_list', language=language.language, lang_id=language.id) }}">{{ language.language }}</a><a class="add_topics" href="{{ url_for('add_topic', lang_id=language.id) }}"><i class="fas fa-plus-circle"></i></a>
+            {% else %}
+              Lenguajes<a class="add_topics" href="{{ url_for('add_lang') }}"><i class="fas fa-plus-circle"></i></a>
+            
+            {% endif %}
+        </h4>
+    </ul>
+{% endif %}
+{% endblock %}
+
+{% block content %}
+
+<!-- Added to get a better body position -->
+<div class="col-lg-2 col-md-2 ">
+</div>
+
+<div class="col-lg-10 new_content index-text">
+<!-- Load ckeditor -->
+    {{ ckeditor.load() }}
+
+<!-- Configure the ckeditor to tell it which field in WTForm will need to be a CKEditor. -->    
+    {{ ckeditor.config(name='description') }}
+
+<!-- Load Form and a new class for the submit button -->
+    {{ wtf.quick_form(form, novalidate=True, button_map={"submit": "btn btn-outline-success"}) }}
+
+</div>
+{% endblock %}

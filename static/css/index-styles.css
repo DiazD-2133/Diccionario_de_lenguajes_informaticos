@@ -1,0 +1,11 @@
+
+.index-text {
+    height: 100%;
+    padding-top: 20%;
+}
+
+.index-text h4 {
+    overflow-y: hidden;
+    margin-bottom: 1.5rem;
+}
+

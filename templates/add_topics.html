@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block css %}    
+<link rel="stylesheet" type="text/css" href="{{url_for('.static', filename='css/adding-content-styles.css')}}">
+{% endblock %}
+
+{% block title %}
+    Mi diccionario personal
+{% endblock %}
+
+{% block content %}
+<div class="col-lg-2 col-md-2 ">
+</div>
+
+<div class="col-lg-10 new_content index-text">
+<!--        Load ckeditor-->
+    {{ ckeditor.load() }}
+
+<!--        Configure the ckeditor to tell it which field in WTForm will need to be a CKEditor.-->
+    {{ ckeditor.config(name='body') }}
+    {{ wtf.quick_form(form, novalidate=True, button_map={"submit": "btn btn-outline-success"}) }}
+</div>
+{% endblock %}

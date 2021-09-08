@@ -1,0 +1,9 @@
+.title {
+    overflow-y: hidden;
+}
+
+.img-thumbnail {
+    height: 20rem;
+    width: 20rem;
+}
+
