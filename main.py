@@ -94,6 +94,7 @@ def get_topic(language, topic):
 @app.route('/add_lang', methods=["GET", "POST"])
 def add_lang():
     languages = NewLanguage.query.all()
+    language = False
     form = AddNewLanguage()
     if form.validate_on_submit():
         new_language = NewLanguage(
@@ -105,7 +106,7 @@ def add_lang():
         db.session.add(new_language)
         db.session.commit()
         return redirect(url_for("index"))
-    return render_template("add_l_o_t.html", languages=languages, form=form)
+    return render_template("add_l_o_t.html", languages=languages, language=language, form=form)
 
 
 @app.route('/add_topic', methods=["GET", "POST"])

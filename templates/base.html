@@ -21,6 +21,8 @@
     <title>{% block title %}{% endblock %}</title>
 </head>
 <body>
+    <div class="backdrop"></div>
+    </div>
   <!-- Main navBar -->
   <header class="main-header fixed-top">
       <nav class="navbar navbar-expand-lg navbar-dark nav-bg">
@@ -43,7 +45,7 @@
   <main class="container-fluid">
     <div  id="view" class="row">
       <!-- Main LateralBar -->
-      <div class="lareral-bar col-lg-2  col-md-2">
+      <div class="lareral-bar movil-lareral-bar col-lg-2  col-md-2">
         {% block model_list_table %}
           <ul class="items">
               <h4 class="language-selected">
@@ -70,5 +72,8 @@
       
   </main>
 </body>
+<footer>
+    <script src="{{ url_for('static', filename='/js/shared.js') }}"></script>
+</footer>
 </html>
 

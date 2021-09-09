@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% import "bootstrap/wtf.html" as wtf %}
 
-{% block css %}    
+{% block css %}
 <link rel="stylesheet" type="text/css" href="{{url_for('.static', filename='css/adding-content-styles.css')}}">
 {% endblock %}
 
@@ -37,8 +37,14 @@
             {% else %}
               Lenguajes<a class="add_topics" href="{{ url_for('add_lang') }}"><i class="fas fa-plus-circle"></i></a>
             
-            {% endif %}
+
         </h4>
+        {% for language in languages %}
+              <li class="item">
+                  <a href="{{ url_for('get_list', language=language.language, lang_id=language.id) }}">{{ language.language }}</a>
+              </li>
+              {% endfor %}
+        {% endif %}
     </ul>
 {% endif %}
 {% endblock %}

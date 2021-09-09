@@ -1,6 +1,17 @@
 * {
     box-sizing: border-box;
-  }
+}
+
+.backdrop {
+    background: rgba(0, 0, 0, 0.3);
+    display: none;
+    height: 100vh;
+    left: 0;
+    position: fixed;
+    top: 0;
+    width: 100vw;
+    z-index: 1;
+}
 
 .nav-bg {
     background-color: #25b84c;
@@ -81,7 +92,8 @@
     text-decoration: none;
 }
 
-.items .item a:hover {
+.items .item a:hover,
+ .lang_items .item a:hover {
     color: white;
     background: #25b84c;
 }
@@ -119,18 +131,23 @@
 
 @media screen and (max-width: 1000px) {
 
-    .lareral-bar {
+    .movil-lareral-bar {
       width: 2.5rem;
       border-right: 2rem solid #c2c1c1;
     }
 
-    .lareral-bar:hover {
+    .movil-lareral-bar:hover {
         width: 2.5rem;
         border-right: 2rem solid rgb(209, 216, 224);
       }
 
-    .items {
-        visibility: hidden;
+    .mobile-nav__items {
+        width: 20rem;
+    }
+
+
+    .open {
+        display: block !important;
     }
 
   }
