@@ -71,13 +71,16 @@
     
 }
 
+.items a {
+    color: black;
+}
+
 .language-selected {
     padding: 1rem 0.5rem ;
     width: 100%;
 }
 
 .language-selected a {
-    color: black;
     text-decoration: none;
 }
 
@@ -85,16 +88,16 @@
     color: #25b84c;
 }
 
-.items .item a {
-    color: black;
+.items .item_a {
     display: block;
     padding: 0 0 0 16px;
     text-decoration: none;
 }
 
-.items .item a:hover,
- .lang_items .item a:hover {
-    color: white;
+.items .item_a:hover,
+.lang_items .item_a:hover,
+.active {
+    color: white !important;
     background: #25b84c;
 }
 

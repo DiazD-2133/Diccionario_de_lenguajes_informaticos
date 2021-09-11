@@ -3,7 +3,6 @@ var itemsList = document.querySelector('.items');
 var lareralBar = document.querySelector('.lareral-bar');
 var backdrop = document.querySelector('.backdrop');
 
-/* console.dir(selectPlanButton); */
 
 lareralBar.addEventListener('click', function() {
     /* mobileNav.style.display = 'block'; Entra en la propiedad 'Display' de la clase */
@@ -25,3 +24,7 @@ if (backdrop) {
     });
 }
 
+document.querySelector('.item_a').addEventListener('click', function(){
+  document.querySelector('.item_a').classList.remove('active');
+  this.classList.add('active');
+});

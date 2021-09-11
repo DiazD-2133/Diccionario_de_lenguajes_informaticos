@@ -23,7 +23,7 @@
         </h4>
         {% for topic in topics %}
             <li class="item">
-                <a href="{{ url_for('get_topic', language=language.language, topic=topic.item_name, lang_id=language.id, topic_id=topic.id) }}">{{ topic.item_name }}</a>
+                <a class="item_a" href="{{ url_for('get_topic', language=language.language, topic=topic.item_name, lang_id=language.id, topic_id=topic.id) }}">{{ topic.item_name }}</a>
             </li>
         {% endfor %}
     </ul>

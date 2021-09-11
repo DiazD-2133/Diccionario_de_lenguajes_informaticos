@@ -59,7 +59,7 @@
               </h4>
               {% for language in languages %}
               <li class="item">
-                  <a href="{{ url_for('get_list', language=language.language, lang_id=language.id) }}">{{ language.language }}</a>
+                  <a class="item_a" href="{{ url_for('get_list', language=language.language, lang_id=language.id) }}">{{ language.language }}</a>
               </li>
               {% endfor %}
           </ul>
