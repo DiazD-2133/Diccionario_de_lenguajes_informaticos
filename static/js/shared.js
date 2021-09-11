@@ -24,7 +24,14 @@ if (backdrop) {
     });
 }
 
-document.querySelector('.item_a').addEventListener('click', function(){
-  document.querySelector('.item_a').classList.remove('active');
-  this.classList.add('active');
-});
+var items = document.querySelectorAll('.item_a');
+
+for (var i = 0; i < items.length; i++) {
+  items[i].addEventListener("click", function() {
+    var current = document.querySelector("active");
+    if (current) {
+      current.classList.remove("active");
+   }
+    this.classList.add('active');
+  });
+}
