@@ -99,8 +99,8 @@
     background: #25b84c;
 }
 
- {
-    color: white;
+.stay_active  {
+    color: white !important;
     background: #25b84c;
 }
 

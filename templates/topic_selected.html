@@ -23,7 +23,11 @@
         </h4>
         {% for topic in topics %}
             <li class="item">
-                <a class="item_a" href="{{ url_for('get_topic', language=language.language, topic=topic.item_name, lang_id=language.id, topic_id=topic.id) }}">{{ topic.item_name }}</a>
+                {% if topic.id ==  topic_selected.id %}
+                    <a class="item_a {{ a_class }}" href="{{ url_for('get_topic', language=language.language, topic=topic.item_name, lang_id=language.id, topic_id=topic.id, a_class='stay_active') }}">{{ topic.item_name }}</a>
+                {% else %}
+                    <a class="item_a" href="{{ url_for('get_topic', language=language.language, topic=topic.item_name, lang_id=language.id, topic_id=topic.id) }}">{{ topic.item_name }}</a>
+                {% endif %}
             </li>
         {% endfor %}
     </ul>
@@ -50,9 +54,9 @@
 </div>
 
 <div class="col-lg-10 contenido">
-    <h4 class="title">{{ topic.item_name  }}</h4>
+    <h4 class="title">{{ topic_selected.item_name  }}</h4>
     <p>
-        {{ topic.description|safe }}
+        {{ topic_selected.description|safe }}
     </p>
 </div>
 {% endblock %}

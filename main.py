@@ -83,12 +83,13 @@ def get_topic(language, topic):
     languages = NewLanguage.query.all()
     topic_id = request.args.get("topic_id")
     lang_id = request.args.get("lang_id")
+    a_class = 'stay_active'
     language_selected = NewLanguage.query.get(lang_id)
-    
+    print(a_class)
     topic_selected = Topics.query.get(topic_id)
     topics_object = db.session.query(Topics).filter_by(language_id=lang_id).all()
     return render_template("topic_selected.html", languages=languages, topics=topics_object, language=language_selected,
-                           topic=topic_selected)
+                           topic_selected=topic_selected, a_class=a_class)
 
 
 @app.route('/add_lang', methods=["GET", "POST"])

@@ -4,6 +4,10 @@ var lareralBar = document.querySelector('.lareral-bar');
 var backdrop = document.querySelector('.backdrop');
 
 
+window.onload = function() {
+  document.getElementById('stay_active').className = 'active';
+};
+
 lareralBar.addEventListener('click', function() {
     /* mobileNav.style.display = 'block'; Entra en la propiedad 'Display' de la clase */
     lareralBar.classList.remove('movil-lareral-bar')
@@ -33,5 +37,6 @@ for (var i = 0; i < items.length; i++) {
       current.classList.remove("active");
    }
     this.classList.add('active');
+    
   });
 }
