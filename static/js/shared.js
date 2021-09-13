@@ -2,10 +2,14 @@
 var itemsList = document.querySelector('.items');
 var lareralBar = document.querySelector('.lareral-bar');
 var backdrop = document.querySelector('.backdrop');
+var active_on_list = document.querySelector('.stay_active');
 
-
+/* Agrega la clase "active" al ultimo item selecionado de la lista */
 window.onload = function() {
-  document.getElementById('stay_active').className = 'active';
+  if (active_on_list) {
+    active_on_list.classList.add('active');
+ }
+   
 };
 
 lareralBar.addEventListener('click', function() {
