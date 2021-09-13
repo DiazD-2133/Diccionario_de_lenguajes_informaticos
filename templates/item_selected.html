@@ -9,8 +9,8 @@
 {% endblock %}
 
 {% block model_list_table %}
-
-{% if topics %}
+<!-- Barra lateral -->>
+{% if topics %}     <!-- Verifica si hay items en un lenguaje seleccionado -->
     <ul class="items">
         <h4 class="language-selected">
 
@@ -23,21 +23,26 @@
         </h4>
         {% for topic in topics %}
             <li class="item">
-                {% if topic.id ==  topic_selected.id %}
-                    <a class="item_a {{ a_class }}" href="{{ url_for('get_topic', language=language.language, topic=topic.item_name, lang_id=language.id, topic_id=topic.id, a_class='stay_active') }}">{{ topic.item_name }}</a>
+                {% if topic_selected %}
+                    {% if topic.id ==  topic_selected.id %}
+                        <a class="item_a {{ a_class }}" href="{{ url_for('get_topic', language=language.language, topic=topic.item_name, lang_id=language.id, topic_id=topic.id) }}">{{ topic.item_name }}</a>
+                    
+                    {% else %}
+                        <a class="item_a" href="{{ url_for('get_topic', language=language.language, topic=topic.item_name, lang_id=language.id, topic_id=topic.id) }}">{{ topic.item_name }}</a>
+                    {% endif %}
                 {% else %}
                     <a class="item_a" href="{{ url_for('get_topic', language=language.language, topic=topic.item_name, lang_id=language.id, topic_id=topic.id) }}">{{ topic.item_name }}</a>
                 {% endif %}
             </li>
         {% endfor %}
     </ul>
-{% else %}
+{% else %}  
     <ul class="lang_items">
         <h4 class="language-selected">
 
-            {% if language.language %}
+            {% if language.language %}  <!-- Si no hay items verifica si hay un lenguaje selecionado -->
               <a href="{{ url_for('get_list', language=language.language, lang_id=language.id) }}">{{ language.language }}</a><a class="add_topics" href="{{ url_for('add_topic', lang_id=language.id) }}"><i class="fas fa-plus-circle"></i></a>
-            {% else %}
+            {% else %}  <!-- Si no hay lenguaje seleccionado muestra los lenguajes disponibles -->
               Lenguajes<a class="add_topics" href="{{ url_for('add_lang') }}"><i class="fas fa-plus-circle"></i></a>
             
             {% endif %}
@@ -54,9 +59,20 @@
 </div>
 
 <div class="col-lg-10 contenido">
-    <h4 class="title">{{ topic_selected.item_name  }}</h4>
-    <p>
-        {{ topic_selected.description|safe }}
-    </p>
+    {% if topic_selected %}
+        <div class="col-lg-10 contenido">
+        <h4 class="title">{{ topic_selected.item_name  }}</h4>
+        <p>
+            {{ topic_selected.description|safe }}
+        </p>
+        <a class="btn btn-success float-right" href="{{url_for('index')}}">Editar</a>
+    {% else %}
+        <h4 class="title">{{ language.language  }}</h4>
+        <img class="rounded mx-auto d-block img-thumbnail" src="{{ language.img_url }}" alt="logo">
+        <p>
+            {{ language.description|safe }}
+        </p>
+        <a class="btn btn-success float-right" href="{{url_for('index')}}">Editar</a>
+    {% endif %}
 </div>
 {% endblock %}

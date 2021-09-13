@@ -5,10 +5,12 @@ from wtforms.validators import DataRequired, URL
 from flask_sqlalchemy import SQLAlchemy
 from flask_ckeditor import CKEditor, CKEditorField
 from flask_bootstrap import Bootstrap
+
+# Se usa para pasar datos a los campos del formulario wtdforms
 from werkzeug.datastructures import MultiDict
 import os
 
-# Genera clave secreta para flask_wtf
+# Genera clave aleatoria para flask_wtf
 SECRET_KEY = os.urandom(32)
 
 
@@ -17,13 +19,13 @@ app = Flask(__name__)
 ckeditor = CKEditor(app)
 Bootstrap(app)
 
-# CONNECT TO DB
+# Conecta a la DB
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///languages.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
 
-# CONFIGURE TABLES
+# Configuracion de tablas
 class NewLanguage(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     language = db.Column(db.String(50), unique=True, nullable=False)
@@ -42,11 +44,11 @@ class Topics(db.Model):
 app.config['SECRET_KEY'] = SECRET_KEY
 
 
-# Table creator
+# Crea las tablas en la DB
 # db.create_all()
 
 
-# WTForms
+# Creacion de los WTForms
 class AddNewLanguage(FlaskForm):
     language = StringField("Nombre del nuevo lenguaje", validators=[DataRequired()])
     icon = StringField("Datos del icono")
@@ -74,7 +76,7 @@ def get_list(language):
     language_id = request.args.get("lang_id")
     language_selected = NewLanguage.query.get(language_id)
     topics_object = db.session.query(Topics).filter_by(language_id=language_id).all()
-    return render_template("language_selected.html", languages=languages, topics=topics_object,
+    return render_template("item_selected.html", languages=languages, topics=topics_object,
                            language=language_selected)
 
 
@@ -85,10 +87,9 @@ def get_topic(language, topic):
     lang_id = request.args.get("lang_id")
     a_class = 'stay_active'
     language_selected = NewLanguage.query.get(lang_id)
-    print(a_class)
     topic_selected = Topics.query.get(topic_id)
     topics_object = db.session.query(Topics).filter_by(language_id=lang_id).all()
-    return render_template("topic_selected.html", languages=languages, topics=topics_object, language=language_selected,
+    return render_template("item_selected.html", languages=languages, topics=topics_object, language=language_selected,
                            topic_selected=topic_selected, a_class=a_class)
 
 
@@ -106,7 +107,10 @@ def add_lang():
         )
         db.session.add(new_language)
         db.session.commit()
-        return redirect(url_for("index"))
+
+        language = db.session.query(NewLanguage).filter_by(language=form.language.data).first()
+
+        return redirect(url_for('get_list', language=language.language, lang_id=language.id))
     return render_template("add_l_o_t.html", languages=languages, language=language, form=form)
 
 
@@ -132,7 +136,11 @@ def add_topic():
             )
             db.session.add(new_topics)
             db.session.commit()
-        return redirect(url_for("index"))
+        language = NewLanguage.query.get(form.language_id.data)
+        topic = db.session.query(Topics).filter_by(item_name=form.item_name.data).first()
+
+        return redirect(url_for('get_topic', language=language.language, topic=topic.item_name, lang_id=language.id,
+                                topic_id=topic.id))
     return render_template("add_l_o_t.html", languages=languages, form=form, lang_id=language, topics=topics_object,
                            language=language_selected)
 
