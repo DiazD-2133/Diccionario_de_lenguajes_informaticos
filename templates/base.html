@@ -34,7 +34,7 @@
             <ul class="navbar-nav  ml-auto">
               {% for language in languages %}
               <li class="nav-item">
-                  <a href="{{ url_for('get_list', language=language.language, lang_id=language.id) }}"><i class="{{language.icon}}"></i>{{ language.language }}</a>
+                  <a href="{{ url_for('get_list', language=language.language) }}"><i class="{{language.icon}}"></i>{{ language.language }}</a>
               </li>
               {% endfor %}
             </ul>
@@ -51,7 +51,7 @@
               <h4 class="language-selected">
 
                 {% if languaje %}
-                  <a href="{{ url_for('get_list', language=language.language, lang_id=language.id) }}">{{ language.language }}</a><a class="add_topics" href="{{ url_for('add_topic', lang_id=language.id) }}"><i class="fas fa-plus-circle"></i></a>
+                  <a href="{{ url_for('get_list', language=language.language) }}">{{ language.language }}</a><a class="add_topics" href="{{ url_for('add_topic', lang_id=language.id) }}"><i class="fas fa-plus-circle"></i></a>
                 {% else %}
                   Lenguajes<a class="add_topics" href="{{ url_for('add_lang') }}"><i class="fas fa-plus-circle"></i></a>
                 
@@ -59,7 +59,7 @@
               </h4>
               {% for language in languages %}
               <li class="item">
-                  <a class="item_a" href="{{ url_for('get_list', language=language.language, lang_id=language.id) }}">{{ language.language }}</a>
+                  <a class="item_a" href="{{ url_for('get_list', language=language.language) }}">{{ language.language }}</a>
               </li>
               {% endfor %}
           </ul>

@@ -5,7 +5,10 @@
 {% endblock %}
 
 {% block title %}
-    Mi diccionario personal - {{language.language }}
+    Mi diccionario personal
+    {% if language%}
+        - {{language.language }}
+    {% endif %}
 {% endblock %}
 
 {% block model_list_table %}
@@ -15,7 +18,7 @@
         <h4 class="language-selected">
 
             {% if language.language %}
-              <a href="{{ url_for('get_list', language=language.language, lang_id=language.id) }}">{{ language.language }}</a><a class="add_topics" href="{{ url_for('add_topic', lang_id=language.id) }}"><i class="fas fa-plus-circle"></i></a>
+              <a href="{{ url_for('get_list', language=language.language) }}">{{ language.language }}</a><a class="add_topics" href="{{ url_for('add_topic', lang_id=language.id) }}"><i class="fas fa-plus-circle"></i></a>
             {% else %}
               Lenguajes<a class="add_topics" href="{{ url_for('add_lang') }}"><i class="fas fa-plus-circle"></i></a>
             
@@ -41,7 +44,7 @@
         <h4 class="language-selected">
 
             {% if language.language %}  <!-- Si no hay items verifica si hay un lenguaje selecionado -->
-              <a href="{{ url_for('get_list', language=language.language, lang_id=language.id) }}">{{ language.language }}</a><a class="add_topics" href="{{ url_for('add_topic', lang_id=language.id) }}"><i class="fas fa-plus-circle"></i></a>
+              <a href="{{ url_for('get_list', language=language.language) }}">{{ language.language }}</a><a class="add_topics" href="{{ url_for('add_topic', lang_id=language.id) }}"><i class="fas fa-plus-circle"></i></a>
             {% else %}  <!-- Si no hay lenguaje seleccionado muestra los lenguajes disponibles -->
               Lenguajes<a class="add_topics" href="{{ url_for('add_lang') }}"><i class="fas fa-plus-circle"></i></a>
             
@@ -60,19 +63,17 @@
 
 <div class="col-lg-10 contenido">
     {% if topic_selected %}
-        <div class="col-lg-10 contenido">
         <h4 class="title">{{ topic_selected.item_name  }}</h4>
         <p>
             {{ topic_selected.description|safe }}
         </p>
-        <a class="btn btn-success float-right" href="{{url_for('index')}}">Editar</a>
+        <a class="btn btn-success float-right" href="{{url_for('edit_topic', topic_id=topic_selected.id)}}">Editar</a>
     {% else %}
         <h4 class="title">{{ language.language  }}</h4>
         <img class="rounded mx-auto d-block img-thumbnail" src="{{ language.img_url }}" alt="logo">
         <p>
             {{ language.description|safe }}
         </p>
-        <a class="btn btn-success float-right" href="{{url_for('index')}}">Editar</a>
     {% endif %}
 </div>
 {% endblock %}

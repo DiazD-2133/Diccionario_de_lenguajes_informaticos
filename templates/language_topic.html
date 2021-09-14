@@ -8,7 +8,7 @@
     Mi diccionario personal - {{language.language }}
 {% endblock %}
 
-    {% block header %}<a href="{{ url_for('get_list', language=language.language, lang_id=language.id) }}">{{ language.language }}</a><a class="add_topics" href="{{ url_for('add_topic', lang_id=language.id) }}"><i class="fas fa-plus-circle"></i></a>{% endblock %}
+    {% block header %}<a href="{{ url_for('get_list', language=language.language) }}">{{ language.language }}</a><a class="add_topics" href="{{ url_for('add_topic', lang_id=language.id) }}"><i class="fas fa-plus-circle"></i></a>{% endblock %}
 
 
 {% block content %}
