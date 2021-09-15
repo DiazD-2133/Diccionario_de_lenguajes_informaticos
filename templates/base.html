@@ -41,10 +41,10 @@
           </div>
       </nav>
   </header>
-
+<!-- Base -->
   <main class="container-fluid">
     <div  id="view" class="row">
-      <!-- Main LateralBar -->
+      <!-- LateralBar -->
       <div class="lareral-bar movil-lareral-bar col-lg-2  col-md-2">
         {% block model_list_table %}
           <ul class="items">
@@ -59,7 +59,7 @@
               </h4>
               {% for language in languages %}
               <li class="item">
-                  <a class="item_a" href="{{ url_for('get_list', language=language.language) }}">{{ language.language }}</a>
+                  <a class="item_from_list" href="{{url_for('delete_language', lang_id=language.id) }}">✘</a><a class="item_a" href="{{ url_for('get_list', language=language.language) }}">{{ language.language }}</a>
               </li>
               {% endfor %}
           </ul>

@@ -24,7 +24,7 @@
         </h4>
         {% for topic in topics %}
             <li class="item">
-                <a href="{{ url_for('get_topic', language=language.language, topic=topic.item_name, lang_id=language.id, topic_id=topic.id) }}">{{ topic.item_name }}</a>
+                <a class="item_t item_from_list" href="{{ url_for('get_topic', language=language.language, topic=topic.item_name, lang_id=language.id, topic_id=topic.id) }}">{{ topic.item_name }}</a>
             </li>
         {% endfor %}
     </ul>
@@ -41,7 +41,7 @@
         </h4>
         {% for language in languages %}
               <li class="item">
-                  <a href="{{ url_for('get_list', language=language.language, lang_id=language.id) }}">{{ language.language }}</a>
+                  <a class="item_t item_from_list" href="{{ url_for('get_list', language=language.language, lang_id=language.id) }}">{{ language.language }}</a>
               </li>
               {% endfor %}
         {% endif %}

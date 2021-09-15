@@ -199,5 +199,14 @@ def edit_topic(topic_id):
     return render_template("add_l_o_t.html", language=language, form=edit_form, is_edit=True)
 
 
+# Funcion de borrar
+@app.route("/delete/<int:lang_id>")
+def delete_language(lang_id):
+    post_to_delete = NewLanguage.query.get(lang_id)
+    db.session.delete(post_to_delete)
+    db.session.commit()
+    return redirect(url_for('index'))
+
+
 if __name__ == "__main__":
     app.run(debug=True)
