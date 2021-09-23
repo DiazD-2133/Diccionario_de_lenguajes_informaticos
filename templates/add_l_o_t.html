@@ -16,10 +16,7 @@
         <h4 class="language-selected">
 
             {% if language.language %}
-              <a href="{{ url_for('get_list', language=language.language, lang_id=language.id) }}">{{ language.language }}</a><a class="add_topics" href="{{ url_for('add_topic', lang_id=language.id) }}"><i class="fas fa-plus-circle"></i></a>
-            {% else %}
-              Lenguajes<a class="add_topics" href="{{ url_for('add_lang') }}"><i class="fas fa-plus-circle"></i></a>
-            
+              <a href="{{ url_for('get_list', language=language.language, lang_id=language.id) }}">{{ language.language }}</a>
             {% endif %}
         </h4>
         {% for topic in topics %}
@@ -33,18 +30,16 @@
         <h4 class="language-selected">
 
             {% if language.language %}
-              <a href="{{ url_for('get_list', language=language.language, lang_id=language.id) }}">{{ language.language }}</a><a class="add_topics" href="{{ url_for('add_topic', lang_id=language.id) }}"><i class="fas fa-plus-circle"></i></a>
+              <a href="{{ url_for('get_list', language=language.language, lang_id=language.id) }}">{{ language.language }}</a>
             {% else %}
-              Lenguajes<a class="add_topics" href="{{ url_for('add_lang') }}"><i class="fas fa-plus-circle"></i></a>
-            
-
+              Lenguajes
         </h4>
-        {% for language in languages %}
-              <li class="item">
+              {% for language in languages %}
+                <li class="item">
                   <a class="item_t item_from_list" href="{{ url_for('get_list', language=language.language, lang_id=language.id) }}">{{ language.language }}</a>
-              </li>
+                </li>
               {% endfor %}
-        {% endif %}
+            {% endif %}
     </ul>
 {% endif %}
 {% endblock %}
@@ -56,6 +51,13 @@
 </div>
 
 <div class="col-lg-10 new_content index-text">
+    {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            {% for message in messages %}
+             <p style="color:red">{{ message }}</p>
+            {% endfor %}
+          {% endif %}
+    {% endwith %}
 <!-- Load ckeditor -->
     {{ ckeditor.load() }}
 

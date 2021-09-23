@@ -1,20 +1,39 @@
-from flask import Flask, render_template, redirect, url_for, request
-from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, HiddenField
-from wtforms.validators import DataRequired, URL
+from flask import Flask, render_template, redirect, url_for, request, flash, abort
 from flask_sqlalchemy import SQLAlchemy
 from flask_ckeditor import CKEditor, CKEditorField
 from flask_bootstrap import Bootstrap
+import os
+
+# Control de usuarios
+from flask_login import UserMixin, login_user, LoginManager, login_required, current_user, logout_user
+from flask_gravatar import Gravatar
+from werkzeug.security import generate_password_hash, check_password_hash
+from functools import wraps
+
+# Importar formularios
+from forms import AddNewLanguage, AddNewTopic, LoginForm, RegisterForm
 
 # Se usa para pasar datos a los campos del formulario wtdforms
 from werkzeug.datastructures import MultiDict
-import os
 
 # Genera clave aleatoria para flask_wtf
 SECRET_KEY = os.urandom(32)
 
 
+# Crear decorador solo admin
+def admin_only(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        # Si el id no es 1 entonces retorna abortar con error 403 error
+        if current_user.id != 1:
+            return abort(403)
+        # De otra forma continua con la funcion
+        return f(*args, **kwargs)
+    return decorated_function
+
+
 app = Flask(__name__)
+app.config['SECRET_KEY'] = SECRET_KEY
 
 ckeditor = CKEditor(app)
 Bootstrap(app)
@@ -24,8 +43,19 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///languages.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
+login_manager = LoginManager()
+login_manager.init_app(app)
+
 
 # Configuracion de tablas
+class User(UserMixin, db.Model):
+    __tablename__ = "users"
+    id = db.Column(db.Integer, primary_key=True)
+    email = db.Column(db.String(100), unique=True)
+    password = db.Column(db.String(100))
+    name = db.Column(db.String(100))
+
+
 class NewLanguage(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     language = db.Column(db.String(50), unique=True, nullable=False)
@@ -41,27 +71,13 @@ class Topics(db.Model):
     description = db.Column(db.Text, nullable=False)
 
 
-app.config['SECRET_KEY'] = SECRET_KEY
-
-
 # Crea las tablas en la DB
 # db.create_all()
 
 
-# Creacion de los WTForms
-class AddNewLanguage(FlaskForm):
-    language = StringField("Nombre del nuevo lenguaje", validators=[DataRequired()])
-    icon = StringField("Datos del icono")
-    description = CKEditorField("Descripción del lenguaje", validators=[DataRequired()])
-    img_url = StringField("Agregar url de la imangen", validators=[URL()])
-    submit = SubmitField("Agregar lenguaje")
-
-
-class AddNewTopic(FlaskForm):
-    language_id = HiddenField()
-    item_name = StringField("Agregar tema", validators=[DataRequired()])
-    description = CKEditorField("Descripción del tema", validators=[DataRequired()])
-    submit = SubmitField("Agregar")
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
 
 
 # Pagina de inicio
@@ -206,6 +222,76 @@ def delete_language(lang_id):
     db.session.delete(post_to_delete)
     db.session.commit()
     return redirect(url_for('index'))
+
+
+@app.route('/register', methods=["GET", "POST"])
+def register():
+    languages = NewLanguage.query.all()
+    language = False
+
+    form = RegisterForm()
+    if form.validate_on_submit():
+
+        # Si el correo ya existe
+        if User.query.filter_by(email=form.email.data).first():
+
+            # Muestra un mensaje flash
+            flash("You've already signed up with that email, log in instead!")
+
+            return redirect(url_for('login'))
+
+        hash_and_salted_password = generate_password_hash(
+            form.password.data,
+            method='pbkdf2:sha256',
+            salt_length=8
+        )
+
+        new_user = User(
+            email=form.email.data,
+            name=form.name.data,
+            password=hash_and_salted_password,
+        )
+        db.session.add(new_user)
+        db.session.commit()
+
+        # Esta linea autentificara al usuario con Flask-Login
+        login_user(new_user)
+        return redirect(url_for("index"))
+
+    return render_template("add_l_o_t.html", form=form, languages=languages, language=language)
+
+
+@app.route('/login', methods=["GET", "POST"])
+def login():
+
+    languages = NewLanguage.query.all()
+    language = False
+
+    form = LoginForm()
+    if form.validate_on_submit():
+        email = form.email.data
+        password = form.password.data
+
+        user = User.query.filter_by(email=email).first()
+        # Email doesn't exist or password incorrect.
+        if not user:
+            flash("That email does not exist, please try again.")
+            return redirect(url_for('login'))
+        elif not check_password_hash(user.password, password):
+            flash('Password incorrect, please try again.')
+            return redirect(url_for('login'))
+        else:
+            login_user(user)
+            return redirect(url_for("index"))
+
+    return render_template("add_l_o_t.html", form=form, languages=languages, language=language)
+
+
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for("index"))
 
 
 if __name__ == "__main__":
