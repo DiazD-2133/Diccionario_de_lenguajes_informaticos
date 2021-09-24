@@ -4,6 +4,7 @@ from wtforms.validators import DataRequired, URL
 from flask_ckeditor import CKEditorField
 
 
+# Formulario para nuevo lenguaje
 class AddNewLanguage(FlaskForm):
     language = StringField("Nombre del nuevo lenguaje", validators=[DataRequired()])
     icon = StringField("Datos del icono")
@@ -12,6 +13,7 @@ class AddNewLanguage(FlaskForm):
     submit = SubmitField("Agregar lenguaje")
 
 
+# Formulario para nuevo tema
 class AddNewTopic(FlaskForm):
     language_id = HiddenField()
     item_name = StringField("Agregar tema", validators=[DataRequired()])
@@ -19,6 +21,7 @@ class AddNewTopic(FlaskForm):
     submit = SubmitField("Agregar")
 
 
+# Formulario para registrar nuevo usuario
 class RegisterForm(FlaskForm):
     email = StringField("Email", validators=[DataRequired()])
     password = PasswordField("Password", validators=[DataRequired()])
@@ -26,6 +29,7 @@ class RegisterForm(FlaskForm):
     submit = SubmitField("Sign Me Up!")
 
 
+# Formulario para inicio de sesion
 class LoginForm(FlaskForm):
     email = StringField("Email", validators=[DataRequired()])
     password = PasswordField("Password", validators=[DataRequired()])

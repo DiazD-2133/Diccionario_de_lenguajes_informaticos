@@ -224,6 +224,7 @@ def delete_language(lang_id):
     return redirect(url_for('index'))
 
 
+# Registrar usuario(Solo importa para registrar al administrador id 1)
 @app.route('/register', methods=["GET", "POST"])
 def register():
     languages = NewLanguage.query.all()
@@ -261,6 +262,7 @@ def register():
     return render_template("add_l_o_t.html", form=form, languages=languages, language=language)
 
 
+# Iniciar sesion
 @app.route('/login', methods=["GET", "POST"])
 def login():
 

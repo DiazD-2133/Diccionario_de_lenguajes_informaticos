@@ -49,7 +49,6 @@
 <!-- Added to get a better body position -->
 <div class="col-lg-2 col-md-2 ">
 </div>
-
 <div class="col-lg-10 new_content index-text">
     {% with messages = get_flashed_messages() %}
           {% if messages %}
@@ -66,6 +65,5 @@
 
 <!-- Load Form and a new class for the submit button -->
     {{ wtf.quick_form(form, novalidate=True, button_map={"submit": "btn btn-outline-success"}) }}
-
 </div>
 {% endblock %}
